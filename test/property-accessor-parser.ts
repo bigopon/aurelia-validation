@@ -20,6 +20,7 @@ describe('PropertyAccessorParser', () => {
     expect(parser.parse('3_letter_id')).toEqual('3_letter_id');
     expect(parser.parse('. @$# ???')).toEqual('. @$# ???');
     expect(parser.parse((x: any) => x.firstName)).toEqual('firstName');
+    expect(parser.parse((x: any) => x.person.lastName)).toEqual('lastName');
   });
 
   it('parses function bodies', () => {
@@ -33,6 +34,7 @@ describe('PropertyAccessorParser', () => {
     expect(parse('function (_) { return _.bc_de; }')).toEqual('bc_de');
     expect(parse('function (a) {"use strict"; return a.b; }')).toEqual('b');
     expect(parse('function (a) { "use strict";  return a.b; }')).toEqual('b');
+    expect(parse('function (a) { return a.b.c.d }')).toEqual('d');
     expect(parse('a=>a.b')).toEqual('b');
     expect(parse('a =>a.b')).toEqual('b');
     expect(parse('a=> a.b')).toEqual('b');
